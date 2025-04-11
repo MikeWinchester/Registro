@@ -37,6 +37,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         // 2. Obtener información del usuario autenticado
         return fetch(`${env.API_URL}/me`, {
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
@@ -52,7 +53,10 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         // 3. Guardar roles en sesión PHP
         return fetch('/login/save-roles.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
             body: JSON.stringify(userData)
         })
         .then(response => {

@@ -86,7 +86,12 @@ async function obtenerDatosLibros(pagina = 1, terminoBusqueda = '') {
             });
         }
         
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(),{
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
         
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
@@ -636,7 +641,9 @@ async function guardarLibro() {
             response = await fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${authToken}`
+                    'Authorization': `Bearer ${authToken}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: formData
             });
@@ -646,7 +653,9 @@ async function guardarLibro() {
             response = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${authToken}`
+                    'Authorization': `Bearer ${authToken}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: formData
             });
@@ -680,7 +689,8 @@ async function eliminarLibro() {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
         });
         

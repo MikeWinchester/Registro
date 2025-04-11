@@ -25,6 +25,77 @@ if (!array_intersect($allowedRoles, $userRoles)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="/biblioteca/chiefs-coordinators/assets/css/styles.css">
+    <style>
+        /* Estilos adicionales para modales */
+        #modalCerrarSesion .modal-dialog,
+        #modal-confirmar-eliminar .modal-dialog {
+            max-width: 400px;
+            margin: 1.75rem auto;
+        }
+
+        #modalCerrarSesion .modal-content,
+        #modal-confirmar-eliminar .modal-content {
+            padding: 1rem;
+        }
+
+        #modalCerrarSesion .modal-body,
+        #modal-confirmar-eliminar .modal-body {
+            padding: 1rem;
+            font-size: 0.95rem;
+        }
+
+        #modalCerrarSesion .modal-footer,
+        #modal-confirmar-eliminar .modal-footer {
+            padding: 0.75rem 1rem;
+            justify-content: center;
+        }
+
+        #modal-libro-form .modal-dialog {
+            max-width: 800px;
+        }
+
+        #modal-libro-form .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .file-input-container {
+            margin-bottom: 1rem;
+        }
+
+        .file-input-label {
+            height: 150px;
+            padding: 1rem;
+        }
+
+        #previewPortada {
+            max-height: 140px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .tags-input-container {
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tags-input-container .tag {
+            margin-bottom: 0.25rem;
+        }
+
+        #archivo-pdf {
+            margin-top: 0.5rem;
+        }
+
+        #modal-libro-form .modal-footer {
+            padding: 0.75rem 1.5rem;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -157,7 +228,7 @@ if (!array_intersect($allowedRoles, $userRoles)) {
 
     <!-- Modal para agregar/editar libro -->
     <div class="modal fade" id="modal-libro-form" tabindex="-1" aria-labelledby="modal-libro-form-label" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #001a3d; color: white;">
                     <h5 class="modal-title" id="modal-libro-form-label"><i class="bi bi-book me-2"></i><span id="modal-libro-titulo">Agregar Nuevo Libro</span></h5>
@@ -192,7 +263,7 @@ if (!array_intersect($allowedRoles, $userRoles)) {
                             <small class="text-muted">Presiona Enter después de escribir cada categoría</small>
                         </div>
                         
-                        <div class="mb-3">
+                        <div class="mb-3 file-input-container">
                             <label class="form-label">Portada del Libro</label>
                             <label for="portada" class="file-input-label" id="file-input-label">
                                 <img id="previewPortada" src="" alt="Vista previa de la portada" style="display: none;">
@@ -202,7 +273,7 @@ if (!array_intersect($allowedRoles, $userRoles)) {
                             <input type="file" class="form-control d-none" id="portada" accept="image/*">
                         </div>
                         
-                        <div class="mb-3">
+                        <div class="mb-3 file-input-container">
                             <label for="archivo-pdf" class="form-label">Archivo PDF*</label>
                             <input type="file" class="form-control" id="archivo-pdf" accept=".pdf" required>
                             <small id="pdf-text" class="text-muted"></small>
@@ -259,5 +330,21 @@ if (!array_intersect($allowedRoles, $userRoles)) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- JS personalizado -->
     <script type="module" src="/biblioteca/chiefs-coordinators/assets/js/controller.js"></script>
+    <script>
+        // Ajustar el modal del formulario cuando se muestra
+        document.getElementById('modal-libro-form').addEventListener('shown.bs.modal', function () {
+            const modalBody = this.querySelector('.modal-body');
+            modalBody.style.maxHeight = `calc(100vh - ${this.querySelector('.modal-header').offsetHeight + this.querySelector('.modal-footer').offsetHeight + 60}px)`;
+        });
+
+        // Ajustar el modal de confirmación cuando se muestra
+        document.getElementById('modalCerrarSesion').addEventListener('shown.bs.modal', function () {
+            this.querySelector('.modal-dialog').style.maxWidth = '400px';
+        });
+
+        document.getElementById('modal-confirmar-eliminar').addEventListener('shown.bs.modal', function () {
+            this.querySelector('.modal-dialog').style.maxWidth = '400px';
+        });
+    </script>
 </body>
 </html>

@@ -128,7 +128,9 @@ async function obtenerDatosLibros(pagina = 1, terminoBusqueda = '') {
         
         const response = await fetch(url.toString(), {
             headers: {
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
         
@@ -177,7 +179,8 @@ async function cargarFavoritos() {
         const response = await fetch(`${env.API_URL}/favorites?user_id=${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': 'application/json'
             }
         });
         
@@ -211,7 +214,8 @@ async function cargarGuardados() {
         const response = await fetch(`${env.API_URL}/saved?user_id=${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': 'application/json'
             }
         });
         
@@ -243,7 +247,8 @@ async function toggleFavorito(libroId, libroUuid) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 libroId: libroUuid,
@@ -282,7 +287,8 @@ async function toggleGuardado(libroId, libroUuid) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 libroId: libroUuid,
@@ -445,13 +451,15 @@ function configurarEventos() {
         }
         
         // Botones de ver libro
-        if (e.target.closest('.btn-ver-libro')) {
-            const boton = e.target.closest('.btn-ver-libro');
+        if (e.target.closest('.btn-ver-libro') || e.target.closest('.ver-libro')) {
+            const boton = e.target.closest('.btn-ver-libro') || e.target.closest('.ver-libro');
             const archivo = boton.dataset.archivo;
             
             // Mostrar spinner en el botón
             const spinner = boton.querySelector('.spinner-border');
-            spinner.classList.remove('d-none');
+            if (spinner) {
+                spinner.classList.remove('d-none');
+            }
             boton.disabled = true;
             
             // Configurar el iframe
@@ -485,7 +493,9 @@ function configurarEventos() {
                 }
                 
                 // Ocultar spinner y mostrar modal
-                spinner.classList.add('d-none');
+                if (spinner) {
+                    spinner.classList.add('d-none');
+                }
                 boton.disabled = false;
                 modalLibro.show();
             };
